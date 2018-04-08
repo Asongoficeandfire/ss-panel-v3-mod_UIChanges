@@ -377,6 +377,24 @@ class AuthController extends BaseController
         } else {
             $user->ref_by = 0;
         }
+        //dumplin：读取aff参数
+        $aff =  $request->getParam('aff');
+        //dumplin：设置ref_by，注意如果邀请码和aff链接同时启用，实际生效的是aff链接的邀请人
+        if (Config::get('enable_aff')=='true') {
+            $user->ref_by = 0;
+            if (is_numeric($aff)){
+                if (User::where('id', '=', $aff)->first()!=null){
+                    $user->ref_by =$aff;
+                }
+            }
+        }
+
+        $user->ref_by = 0;
+        if (is_numeric($aff)){
+            if (User::where('id', '=', $aff)->first()!=null){
+                $user->ref_by =$aff;
+            }
+        }
         $user->expire_in=date("Y-m-d H:i:s", time()+Config::get('user_expire_in_default')*86400);
         $user->reg_date=date("Y-m-d H:i:s");
         $user->reg_ip=$_SERVER["REMOTE_ADDR"];

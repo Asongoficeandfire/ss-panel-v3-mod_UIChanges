@@ -84,6 +84,7 @@ $System_Config['reg_auto_reset_day']='0';      //注册时的流量重置日以�
 $System_Config['reg_auto_reset_bandwidth']='0';
 $System_Config['ramdom_group']='0';      //注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔。
 $System_Config['enable_invite_code']='false';      //是否启用邀请码注册
+$System_Config['enable_aff']='false';      //是否启用aff链接
 $System_Config['enable_email_verify']='true';      //是否启用注册邮箱验证码
 $System_Config['email_verify_ttl']='3600';      //邮箱验证码有效期
 $System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次数（上面那个周期内）

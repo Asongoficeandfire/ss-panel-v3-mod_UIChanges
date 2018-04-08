@@ -203,6 +203,8 @@
                 url:"/auth/register",
                 dataType:"json",
                 data:{
+					{*dumplin:调用轮子3读取cookie里的aff*}
+					aff: getCookie('aff'),
                     email: $("#email").val(),
                     name: $("#name").val(),
                     passwd: $("#passwd").val(),
@@ -363,3 +365,49 @@ function time(o) {
 </script>
 
 {/if}
+
+
+{*dumplin:aff链*}
+<script>
+	{*dumplin：轮子1.js读取url参数*}
+	function getQueryVariable(variable)
+	{
+	       var query = window.location.search.substring(1);
+	       var vars = query.split("&");
+	       for (var i=0;i<vars.length;i++) {
+	            	var pair = vars[i].split("=");
+	            	if(pair[0] == variable){
+	            		return pair[1];
+	            	}
+	       }
+	       return "";
+	}
+
+	{*dumplin:轮子2.js写入cookie*}
+	function setCookie(cname,cvalue,exdays)
+	{
+	  var d = new Date();
+	  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+	  var expires = "expires="+d.toGMTString();
+	  document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	{*dumplin:轮子3.js读取cookie*}
+	function getCookie(cname)
+	{
+	  var name = cname + "=";
+	  var ca = document.cookie.split(';');
+	  for(var i=0; i<ca.length; i++) 
+	  {
+	    var c = ca[i].trim();
+	    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+	  }
+	  return "";
+	}
+
+	{*dumplin:开始造车.读取aff，写入cookie，自动跳转隐藏url参数*}
+	if (getQueryVariable('aff')!=false){
+		setCookie('aff',getQueryVariable('aff'),30);
+		window.location.href='/auth/register'; 
+	}
+</script>
