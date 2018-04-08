@@ -85,19 +85,28 @@
 													<thead>
 													<tr>
 													<!--	<th>###</th>   -->
-														<th>邀请码(点右键复制链接)</th>
-														<th>状态</th>
+														<th>邀请链接</th>
+														<th>点击复制</th>
 													</tr>
 													</thead>
 													<tbody>
-													{foreach $codes as $code}
+													{if $config["enable_aff"]}
 														<tr>
 															<!-- <td><b>{$code->id}</b></td>  -->
-															<td><a href="/auth/register?code={$code->code}" target="_blank">{$code->code}</a>
+															<td><a>{$config["baseUrl"]}/auth/register?aff={$user->id}</a>
 															</td>
-															<td>可用</td>
+															<td><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></td>
 														</tr>
-													{/foreach}
+													{else}
+														{foreach $codes as $code}
+															<tr>
+																<!-- <td><b>{$code->id}</b></td>  -->
+																<td><a>{$config["baseUrl"]}/auth/register?code={$code->code}{$code->code}</a>
+																</td>
+																<td><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}{$code->code}">点击拷贝邀请链接</button></td>
+															</tr>
+														{/foreach}
+													{/if}
 													</tbody>
 												</table>
 											{$codes->render()}
@@ -146,6 +155,15 @@
 
 
 <script>
+	$(function(){
+		new Clipboard('.copy-text');
+	});
+
+	$(".copy-text").click(function () {
+		$("#result").modal();
+		$("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
+	});
+
     $(document).ready(function () {
         $("#invite").click(function () {
             $.ajax({
